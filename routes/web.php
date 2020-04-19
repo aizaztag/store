@@ -1,5 +1,11 @@
 <?php
+
+use Illuminate\Support\Facades\Auth;
+
 require 'admin.php';
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -11,15 +17,12 @@ require 'admin.php';
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('login', 'AuthController@index');
-Route::post('post-login', 'AuthController@postLogin');
-Route::get('registration', 'AuthController@registration');
-Route::post('post-registration', 'AuthController@postRegistration');
-Route::get('dashboard', 'AuthController@dashboard');
-Route::get('logout', 'AuthController@logout');*/
-
+Auth::routes();
+Route::view('/', 'site.pages.homepage');
+Route::get('/test', 'Site\CategoryController@test');
+Route::get('/category/{slug}', 'Site\CategoryController@show')->name('category.show');
+Route::get('/product/{slug}', 'Site\ProductController@show')->name('product.show');
+Route::post('/product/add/cart', 'Site\ProductController@addToCart')->name('product.add.cart');
+Route::get('/cart', 'Site\CartController@getCart')->name('checkout.cart');
+Route::get('/cart/item/{id}/remove', 'Site\CartController@removeItem')->name('checkout.cart.remove');
+Route::get('/cart/clear', 'Site\CartController@clearCart')->name('checkout.cart.clear');

@@ -3,10 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
+use TypiCMS\NestableTrait;
 
 class Category extends Model
 {
+    use NestableTrait;
+
+
     protected $table = 'categories';
+
+    public static $rules = [
+        'name'      =>  'required|max:191|unique:categories',
+        'parent_id' =>  'required|not_in:0',
+        'image'     =>  'mimes:jpg,jpeg,png|max:1000'
+    ];
+
+
+    public $errors;
+
 
     protected $fillable = [
         'name', 'slug', 'description', 'parent_id', 'featured', 'menu', 'image'
@@ -32,5 +47,13 @@ class Category extends Model
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = str_slug($value);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_categories', 'category_id', 'product_id');
     }
 }

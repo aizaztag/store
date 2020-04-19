@@ -30,6 +30,9 @@ class CategoryRepository extends BaseRepository implements CategoryContract
         $this->model = $model;
     }
 
+
+
+
     /**
      * @param string $order
      * @param string $sort
@@ -98,6 +101,8 @@ class CategoryRepository extends BaseRepository implements CategoryContract
         $category = $this->findCategoryById($params['id']);
 
         $collection = collect($params)->except('_token');
+
+        $image = null;
 
         if ($collection->has('image') && ($params['image'] instanceof  UploadedFile)) {
 

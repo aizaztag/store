@@ -44,6 +44,7 @@ class BaseController extends Controller
         $this->setFlashMessage($message, $type);
         $this->showFlashMessages();
 
+
         if ($error && $withOldInputWhenError) {
             return redirect()->back()->withInput();
         }

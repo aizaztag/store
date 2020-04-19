@@ -25,6 +25,12 @@ class Attribute extends Model
         'is_required'   =>  'boolean',
     ];
 
+    public static $rules = [
+        'code'          =>  'required|unique:attributes',
+        'name'          =>  'required',
+        'frontend_type' =>  'required'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

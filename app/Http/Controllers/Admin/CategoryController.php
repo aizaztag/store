@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\CategoryValidationRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Contracts\CategoryContract;
 use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class CategoryController
@@ -32,6 +35,7 @@ class CategoryController extends BaseController
     public function index()
     {
         $categories = $this->categoryRepository->listCategories();
+       // $categories = $this->categoryRepository->treeList();
         $this->setPageTitle('Categories', 'List of all categories');
         return view('admin.categories.index', compact('categories'));
     }
@@ -41,8 +45,8 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        $categories = $this->categoryRepository->listCategories('id', 'asc');
-
+        //$categories = $this->categoryRepository->listCategories('id', 'asc');
+        $categories = $this->categoryRepository->treeList();
         $this->setPageTitle('Categories', 'Create Category');
         return view('admin.categories.create', compact('categories'));
     }
@@ -52,15 +56,13 @@ class CategoryController extends BaseController
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(CategoryValidationRequest $request)
     {
-        $this->validate($request, [
-            'name'      =>  'required|max:191|unique:categories,name',
-            'parent_id' =>  'required|not_in:0',
-            'image'     =>  'mimes:jpg,jpeg,png|max:1000'
-        ]);
+
+        $validated = $request->validated();
 
         $params = $request->except('_token');
+
 
         $category = $this->categoryRepository->createCategory($params);
 
@@ -78,7 +80,8 @@ class CategoryController extends BaseController
     public function edit($id)
     {
         $targetCategory = $this->categoryRepository->findCategoryById($id);
-        $categories = $this->categoryRepository->listCategories();
+        //$categories = $this->categoryRepository->listCategories();
+        $categories = $this->categoryRepository->treeList();
 
         $this->setPageTitle('Categories', 'Edit Category : '.$targetCategory->name);
         return view('admin.categories.edit', compact('categories', 'targetCategory'));
@@ -91,13 +94,12 @@ class CategoryController extends BaseController
      */
     public function update(Request $request)
     {
-        $this->validate($request, [
-            'name'      =>  'required|max:191',
-            'parent_id' =>  'required|not_in:0',
-            'image'     =>  'mimes:jpg,jpeg,png|max:1000'
-        ]);
 
         $params = $request->except('_token');
+
+        $rules = Category::$rules;
+        $rules['name'] = $rules['name'] . ',name,' . $params['id'];
+        $this->validate($request, $rules);
 
         $category = $this->categoryRepository->updateCategory($params);
 

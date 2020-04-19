@@ -7,6 +7,12 @@ namespace App\Contracts;
  */
 interface CategoryContract
 {
+
+    /**
+     * @return mixed
+     */
+    public function treeList(); // to be used from package
+
     /**
      * @param string $order
      * @param string $sort
@@ -38,4 +44,11 @@ interface CategoryContract
      * @return bool
      */
     public function deleteCategory($id);
+
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function findBySlug($slug);
 }
