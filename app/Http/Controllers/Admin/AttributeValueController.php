@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\AttributeValue;
 use App\Http\Controllers\Controller;
 use App\Contracts\AttributeContract;
+use Illuminate\Support\Facades\Validator;
 
 class AttributeValueController extends Controller
 {
@@ -27,24 +28,45 @@ class AttributeValueController extends Controller
 
     public function addValues(Request $request)
     {
-        $value = new AttributeValue();
-        $value->attribute_id = $request->input('id');
-        $value->value = $request->input('value');
-        $value->price = $request->input('price');
-        $value->save();
 
-        return response()->json($value);
+        $validator = Validator::make($request->all(), [
+            'price' => 'nullable|numeric'
+        ]);
+        if ($validator->passes()) {
+
+            $value = new AttributeValue();
+            $value->attribute_id = $request->input('id');
+            $value->value = $request->input('value');
+            $value->price = $request->input('price');
+            $value->save();
+
+            return response()->json($value);
+        }
+
+        return response()->json(['error'=>$validator->errors()->all()]);
+
     }
 
     public function updateValues(Request $request)
     {
-        $attributeValue = AttributeValue::findOrFail($request->input('valueId'));
-        $attributeValue->attribute_id = $request->input('id');
-        $attributeValue->value = $request->input('value');
-        $attributeValue->price = $request->input('price');
-        $attributeValue->save();
 
-        return response()->json($attributeValue);
+        $validator = Validator::make($request->all(), [
+            'price' => 'nullable|numeric'
+        ]);
+
+        if ($validator->passes()) {
+
+            $attributeValue = AttributeValue::findOrFail($request->input('valueId'));
+            $attributeValue->attribute_id = $request->input('id');
+            $attributeValue->value = $request->input('value');
+            $attributeValue->price = $request->input('price');
+            $attributeValue->save();
+
+            return response()->json($attributeValue);
+        }
+
+        return response()->json(['error'=>$validator->errors()->all()]);
+
     }
 
     public function deleteValues(Request $request)

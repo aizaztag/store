@@ -68,7 +68,7 @@
                                 <button class="btn btn-sm btn-primary" @click.stop="editAttributeValue(value)">
                                     <i class="fa fa-edit"></i>
                                 </button>
-                                <button class="btn btn-sm btn-danger">
+                                <button class="btn btn-sm btn-danger" @click.stop="deleteAttributeValue(value)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </td>
@@ -128,6 +128,12 @@
                         value: _this.value,
                         price: _this.price,
                     }).then (function(response){
+                        if(response.data.error !== undefined ){
+                            _this.$swal("Error!"+response.data.error, {
+                                icon: "error",
+                            });
+                            return;
+                        }
                         _this.values.push(response.data);
                         _this.resetValue();
                         _this.$swal("Success! Value added successfully!", {
@@ -155,6 +161,7 @@
                 this.price = value.price;
                 this.currentId = value.id;
                 this.key = this.values.indexOf(value);
+                console.log('key' , value)
                 /*highlight input false after 2 secs*/
                 setTimeout(() =>{
                     this.isUpdate=false;
@@ -177,9 +184,16 @@
                         price: _this.price,
                         valueId: _this.currentId
                     }).then ((response) =>{
+                        if(response.data.error !== undefined ){
+                            _this.$swal("Error!"+response.data.error, {
+                                icon: "error",
+                            });
+                            return;
+                        }
                         _this.values.splice(_this.key, 1);
+                        //_this.values.push(response.data);
+                        _this.values.unshift(response.data);
                         _this.resetValue();
-                        _this.values.push(response.data);
                         _this.$swal("Success! Value updated successfully!", {
                             icon: "success",
                         });

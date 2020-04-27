@@ -1852,6 +1852,14 @@ __webpack_require__.r(__webpack_exports__);
           value: _this.value,
           price: _this.price
         }).then(function (response) {
+          if (response.data.error !== undefined) {
+            _this.$swal("Error!" + response.data.error, {
+              icon: "error"
+            });
+
+            return;
+          }
+
           _this.values.push(response.data);
 
           _this.resetValue();
@@ -1883,6 +1891,7 @@ __webpack_require__.r(__webpack_exports__);
       this.price = value.price;
       this.currentId = value.id;
       this.key = this.values.indexOf(value);
+      console.log('key', value);
       /*highlight input false after 2 secs*/
 
       setTimeout(function () {
@@ -1911,11 +1920,20 @@ __webpack_require__.r(__webpack_exports__);
           price: _this.price,
           valueId: _this.currentId
         }).then(function (response) {
-          _this.values.splice(_this.key, 1);
+          if (response.data.error !== undefined) {
+            _this.$swal("Error!" + response.data.error, {
+              icon: "error"
+            });
+
+            return;
+          }
+
+          _this.values.splice(_this.key, 1); //_this.values.push(response.data);
+
+
+          _this.values.unshift(response.data);
 
           _this.resetValue();
-
-          _this.values.push(response.data);
 
           _this.$swal("Success! Value updated successfully!", {
             icon: "success"
@@ -20007,7 +20025,19 @@ var render = function() {
                             [_c("i", { staticClass: "fa fa-edit" })]
                           ),
                           _vm._v(" "),
-                          _vm._m(1, true)
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-danger",
+                              on: {
+                                click: function($event) {
+                                  $event.stopPropagation()
+                                  return _vm.deleteAttributeValue(value)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-trash" })]
+                          )
                         ]
                       )
                     ])
@@ -20036,14 +20066,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-      _c("i", { staticClass: "fa fa-trash" })
     ])
   }
 ]

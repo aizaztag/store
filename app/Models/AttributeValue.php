@@ -29,6 +29,10 @@ class AttributeValue extends Model
         'attribute_id'  =>  'integer',
     ];
 
+    public  static $rules = [
+        'price'  =>  'numeric',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

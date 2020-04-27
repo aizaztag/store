@@ -8,6 +8,15 @@
     </section>
     <section class="section-content bg padding-y border-top" id="site">
         <div class="container">
+            {{--session  message--}}
+            <div class="row">
+                <div class="col-sm-12">
+                    @if (Session::has('message'))
+                        <p class="alert alert-success">{{ Session::get('message') }}</p>
+                    @endif
+                </div>
+            </div>
+            {{--session  message--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -99,6 +108,8 @@
                                                         <input type="hidden" name="productId" value="{{ $product->id }}">
                                                         <input type="hidden" name="price" id="finalPrice" value="{{ $product->sale_price != '' ? $product->sale_price : $product->price }}">
                                                     </dd>
+                                                    Available: {{ $product->quantity }}
+
                                                 </dl>
                                             </div>
                                         </div>
