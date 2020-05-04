@@ -49,7 +49,6 @@ class ProductController extends BaseController
     {
         $params = $request->except('_token');
 
-
         $product = $this->productRepository->createProduct($params);
 
         if (!$product) {
@@ -76,6 +75,6 @@ class ProductController extends BaseController
         if (!$product) {
             return $this->responseRedirectBack('Error occurred while updating product.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.products.index', 'Product updated successfully' ,'success',false, false);
+            return $this->responseRedirect('admin.products.index', 'Product updated successfully' ,'success',false, false);
     }
 }

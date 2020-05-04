@@ -22,18 +22,22 @@ class PayPalService
     public function __construct()
     {
         $paypal_conf = \Config::get('paypal');
-         dd($paypal_conf);
-        if (config('settings.paypal_client_id') == '' || config('settings.paypal_secret_id') == '') {
+        /*if (config('settings.paypal_client_id') == '' || config('settings.paypal_secret_id') == '') {
             return redirect()->back()->with('error', 'No PayPal settings found.');
-        }
+        }*/
 
-        $this->payPal = new ApiContext(
+        /*$this->payPal = new ApiContext(
             new OAuthTokenCredential(
                 config('settings.paypal_client_id'),
                 config('settings.paypal_secret_id')
             )
-        );
+        );*/
 
+        $this->payPal  = new ApiContext(new OAuthTokenCredential(
+                $paypal_conf['client_id'],
+                $paypal_conf['secret'])
+        );
+        $this->payPal->setConfig($paypal_conf['settings']);
         // To use PayPal in live mode you have to add
         // the below, I prefer to use the sandbox mode only.
 
