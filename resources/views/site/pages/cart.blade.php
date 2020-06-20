@@ -86,7 +86,9 @@
                             <br> Lorem ipsum dolor
                         </div>
                     </figure>
-                    <a href="{{ route('checkout.index') }}" class="btn btn-success btn-lg btn-block">Proceed To Checkout</a>
+                    @if (!(\Cart::isEmpty()))
+                        <a href="{{ route('checkout.index') }}" class="btn btn-success btn-lg btn-block">Proceed To Checkout</a>
+                    @endif
                 </aside>
             </div>
         </div>

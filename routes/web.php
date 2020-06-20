@@ -18,7 +18,11 @@ require 'admin.php';
 |
 */
 Auth::routes();
-Route::view('/', 'site.pages.homepage');
+Route::get('/', function (){
+    $products = \App\Models\Product::where('featured' , '1')->get();
+    //dd($features->images);
+    return view('site.pages.homepage' ,compact('products'));
+});
 Route::get('/test', 'Site\CategoryController@test');
 Route::get('/category/{slug}', 'Site\CategoryController@show')->name('category.show');
 Route::get('/product/{slug}', 'Site\ProductController@show')->name('product.show');

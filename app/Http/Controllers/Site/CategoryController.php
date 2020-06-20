@@ -36,6 +36,6 @@ class CategoryController extends Controller
                 }
             }
         }
-        dd($super_cat);
+       // dd($super_cat);
     }
 }

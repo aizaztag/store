@@ -8,6 +8,7 @@ use App\Contracts\OrderContract;
 use App\Http\Controllers\Controller;
 use App\Services\PayPalService;
 use Cart;
+use Illuminate\Support\Facades\Redirect;
 
 class CheckoutController extends Controller
 {
@@ -23,11 +24,13 @@ class CheckoutController extends Controller
 
     public function getCheckout()
     {
+        if(Cart::isEmpty()) return Redirect::back()->withErrors(['Your Shopping Cart Is Empty', 'The Message']);
         return view('site.pages.checkout');
     }
 
     public function placeOrder(OrderValidationRequest $request)
     {
+           // echo '<pre>' ; print_r($request->all()); die;
         // Before storing the order we should implement the
         // request validation which I leave it to you
         $validated = $request->validated();

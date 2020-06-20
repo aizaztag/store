@@ -8,9 +8,9 @@
     </section>
     <section class="section-content bg padding-y">
         <div class="container">
-            @if($errors->any())
+           {{-- @if($errors->any())
                 {{ implode('', $errors->all('<div>:message</div>')) }}
-            @endif
+            @endif--}}
             <div class="row">
                 <div class="col-sm-12">
                     @if (Session::has('error'))
@@ -105,8 +105,16 @@
                                         <h4 class="card-title mt-2">Your Order</h4>
                                     </header>
                                     <article class="card-body">
-                                        <dl class="dlist-align">
+                                        <dl class="dlist-align-payment">
                                             <dt>Total cost: </dt>
+                                            <dd class="text-right h5 b"> {{ config('settings.currency_symbol') }}{{ \Cart::getSubTotal() }} </dd>
+                                        </dl>
+                                        <dl class="dlist-align-payment">
+                                            <dt>Delivery Charges </dt>
+                                            <dd class="text-right h5 b"> {{ config('settings.currency_symbol') }}00</dd>
+                                        </dl>
+                                        <dl class="dlist-align-payment">
+                                            <dt>Grand Total: </dt>
                                             <dd class="text-right h5 b"> {{ config('settings.currency_symbol') }}{{ \Cart::getSubTotal() }} </dd>
                                         </dl>
                                     </article>

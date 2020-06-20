@@ -1811,6 +1811,13 @@ article:after,
 .dlist-inline dt, .dlist-inline dd {
   display: inline-block; }
 
+/*new changes*/
+.dlist-align-payment dt {
+  width: 125px; /*new changes*/
+  float: left;
+  word-wrap: break-word;
+}
+
 .dlist-align dt {
   width: 90px;
   float: left;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 use Cart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 
 class CartController extends Controller
 {

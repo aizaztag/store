@@ -25,13 +25,13 @@ class OrderValidationRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_number' => 'required',
+            //'order_number' => 'required',
             'user_id' => 'required,'.Auth::user()->id,
-            'status' => 'required',
-            'grand_total' => 'required',
-            'item_count' => 'required',
-            'payment_status' => 'required',
-            'payment_method' => 'required',
+            'status' => 'required'.'pending',
+            'grand_total' => 'required'.\Cart::getSubTotal(),
+            'item_count' => 'required'.\Cart::getContent()->count(),
+            'payment_status' => 'required'.'1',
+            'payment_method' => 'required'.'paypal',
             'first_name' => 'required',
             'last_name' => 'required',
             'address' => 'required',
