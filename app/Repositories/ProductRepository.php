@@ -97,6 +97,16 @@ class ProductRepository extends BaseRepository implements ProductContract
 
 
     /**
+     * @return mixed
+     */
+    public function findFeaturedProduct()
+    {
+        $product = Product::where('featured', 1)->get();
+        return $product;
+    }
+
+
+    /**
      * @param array $params
      * @return mixed
      */

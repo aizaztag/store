@@ -1,10 +1,7 @@
 <?php
-
-
 namespace App\Repositories;
 
 use App\Contracts\BaseContract;
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 /**
@@ -55,7 +52,7 @@ class BaseRepository implements BaseContract
      */
     public function all($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc')
     {
-        return $this->model->orderBy($orderBy, $sortBy)->get($columns); // this is same as:  Category::orderBy('id', 'asc')->get('*');
+        return $this->model->orderBy($orderBy, $sortBy)->get($columns); // this is same as:  Model::orderBy('id', 'asc')->get('*');
     }
 
     /**

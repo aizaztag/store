@@ -25,6 +25,12 @@ class ProductController extends Controller
 
     }
 
+    public function index()
+    {
+        $products  = $this->productRepository->find(1);
+        dd($products);
+    }
+
     /**
      * @param $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

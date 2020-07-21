@@ -18,13 +18,11 @@ require 'admin.php';
 |
 */
 Auth::routes();
-Route::get('/', function (){
-    $products = \App\Models\Product::where('featured' , '1')->get();
-    //dd($features->images);
-    return view('site.pages.homepage' ,compact('products'));
-});
+
+Route::get('/', 'Site\HomeController@index');
 Route::get('/test', 'Site\CategoryController@test');
 Route::get('/category/{slug}', 'Site\CategoryController@show')->name('category.show');
+Route::get('/products', 'Site\ProductController@index')->name('product.index');
 Route::get('/product/{slug}', 'Site\ProductController@show')->name('product.show');
 Route::post('/product/add/cart', 'Site\ProductController@addToCart')->name('product.add.cart');
 Route::get('/cart', 'Site\CartController@getCart')->name('checkout.cart');
@@ -36,6 +34,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/checkout/order', 'Site\CheckoutController@placeOrder')->name('checkout.place.order');
     Route::get('checkout/payment/complete', 'Site\CheckoutController@complete')->name('checkout.payment.complete');
     Route::get('account/orders', 'Site\AccountController@getOrders')->name('account.orders');
-
-
 });
